@@ -1,8 +1,9 @@
 <template>
   <div>
-    <p>{{value}}</p>
-    <p>{{numReviews}}</p>
+    <i v-for="val in Math.floor(value)" :key="val" class="fas fa-star"></i>
+    <i v-if="value % 1" class="fas fa-star-half-alt"></i>
   </div>
+  <p>{{value}}</p>
 </template>
 
 <script>
@@ -11,7 +12,7 @@ export default {
   props: {
     value: Number,
     numReviews: Number
-  }
+  },
 }
 </script>
 

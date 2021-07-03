@@ -8,7 +8,6 @@
     v-bind:key="product"
     v-bind:product="product"
   />
-  <button @click="getPageProducts('', '')">Add four</button>
 </template>
 
 <script>
@@ -24,6 +23,9 @@ export default {
   },
   methods: {
     ...mapActions(["getPageProducts"]),
+  },
+  mounted(){
+    this.getPageProducts('','')
   },
 };
 </script>
