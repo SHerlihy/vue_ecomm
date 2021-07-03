@@ -1,8 +1,5 @@
 <template>
-  <p>Home view</p>
-  <router-link :to="{ name: 'Product', params: { id: '001' } }"
-    >Product Page</router-link
-  >
+  <h2>Latest Products</h2>
   <Product
     v-for="product in allProducts"
     v-bind:key="product"

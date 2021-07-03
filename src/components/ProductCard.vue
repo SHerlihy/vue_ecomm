@@ -8,7 +8,7 @@
     <strong>{{product.name}}</strong>
     </router-link>
     <Rating v-bind:value="product.rating" v-bind:numReviews="product.numReviews"/>
-    <h3>{{product.price}}</h3>
+    <h3>£{{product.price}}</h3>
   </section>
 </article>
 </template>
