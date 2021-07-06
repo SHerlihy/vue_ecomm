@@ -52,11 +52,11 @@ const routes = [
   //   component: () =>
   //     import(/* webpackChunkName: "productedit" */ "../views/ProductEdit.vue"),
   // },
-  // {
-  //   path: "/cart/:id?",
-  //   name: "Cart",
-  //   component: () => import(/* webpackChunkName: "cart" */ "../views/Cart.vue"),
-  // },
+  {
+    path: "/cart/:id?",
+    name: "Cart",
+    component: () => import(/* webpackChunkName: "cart" */ "../views/Cart.vue"),
+  },
   // {
   //   path: "/login",
   //   name: "Login",

@@ -15,7 +15,16 @@
   </label>
   <button type="submit">Add to Cart</button>
   </form>
-  <p v-for="item in cartItems" :key="item">{{qty}}</p>
+  <p v-for="item in cartItems" :key="item">{{item}}</p>
+  <div>
+    <h3>Reviews</h3>
+    <div v-for="review in oneProduct.reviews" :key="review._id">
+      <strong>{{review.name}}</strong>
+      <Rating v-bind:value="review.rating"/>
+      <p>{{review.createdAt.substring(0, 10)}}</p>
+      <p>{{review.comment}}</p>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -39,7 +48,8 @@ export default {
     ...mapMutations(["addToCart"]),
   },
     mounted(){
-    this.getProduct(this.$route.params.id)
+    this.getProduct(this.$route.params.id);
+    console.log(this.oneProduct)
   },
 }
 </script>

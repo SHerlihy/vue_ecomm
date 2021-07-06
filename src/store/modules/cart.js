@@ -4,11 +4,9 @@ const moduleCart = {
   }),
   mutations: {
     addToCart: (state, { id, amount }) => {
-      console.log(id);
-      console.log(amount);
-      state.inCart[id] = state.inCart[id] + amount;
+      state.inCart[id] = (state.inCart[id] || 0) + amount;
     },
-    subFromCart: (state, id, amount) => (state.inCart[id] += amount),
+    subFromCart: (state, { id, amount }) => (state.inCart[id] || 0) - amount,
     removeProductFromCart: (state, id) => delete state.inCart[id],
     emptyCart: (state) => (state.inCart = {}),
     // emptyCart: (state) =>

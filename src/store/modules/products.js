@@ -5,6 +5,7 @@ const moduleProducts = {
     products: [{}],
     pages: 1,
     page: 1,
+    productsMulti: [{}],
     product: {},
   }),
   mutations: {
@@ -13,6 +14,9 @@ const moduleProducts = {
       state.products = products;
       state.pages = pages;
       state.page = page;
+    },
+    setProductsMulti: (state, productsArr) => {
+      state.productsMulti = productsArr;
     },
     productDetails: (state, details) => {
       state.product = details;
@@ -25,6 +29,13 @@ const moduleProducts = {
       );
       commit("productsOnPage", data.products, data.pages, data.page);
     },
+    async getMultiProducts({ commit }, arrIDs) {
+      const { data } = await axios.get(
+        `http://localhost:5000/api/products/multi/${arrIDs}`
+      );
+      console.log(`mulPros:${data}`);
+      commit("setProductsMulti", data);
+    },
     async getProduct({ commit }, id) {
       const { data } = await axios.get(
         `http://localhost:5000/api/products/${id}`
@@ -34,6 +45,7 @@ const moduleProducts = {
   },
   getters: {
     allProducts: (state) => state.products,
+    multiProducts: (state) => state.productsMulti,
     oneProduct: (state) => state.product,
   },
 };
