@@ -17,9 +17,10 @@
       </div>
       <div data-test="fewer-in-stock-product" v-else-if="item.countInStock < cartItems[item._id]">
         <p>Fewer items available in stock than in cart</p>
+        <InCartProduct :productDets="item" :productQty="item.countInStock"/>
       </div>
       <div data-test="in-cart-product" v-else>
-        <InCartProduct :productDets="item" :productQty="cartItems[item._id]" />
+        <InCartProduct :productDets="item" :productQty="cartItems[item._id]"/>
       </div>
     </div>
     </section>

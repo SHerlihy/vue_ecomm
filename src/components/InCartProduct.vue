@@ -13,6 +13,7 @@
   <button type="button" @click="decrementQty">-</button>
   <button type="submit">Set new value</button>
   </form>
+  <button @click="removeProductFromCart(productDets._id)">Remove</button>
 </template>
 
 <script>
@@ -30,11 +31,13 @@ export default {
   },
       computed: {
       ...mapGetters(["cartItems"]),
+
       },
       methods: {
       largerQty(a,b){
-        let bigger = a > b ? a : b
-        return bigger + 5
+        let bigger = a > b ? a : b;
+        let limit = bigger + 5 > this.productDets.countInStock ? this.productDets.countInStock : bigger + 5;
+        return limit
       },
       decrementQty(){
         this.qty--
