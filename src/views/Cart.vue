@@ -1,59 +1,61 @@
-<template>
-  <h1>Shopping Cart</h1>
-  <button @click="log(items)">whole cart</button>
-  <p v-if="Object.keys(cartItems).length === 0">No items in cart</p>
-  <section v-else>
-    <h2>Items in Cart:</h2>
+<template id='Cart'>
+  <h1 data-test="view-title">Shopping Cart</h1>
+  <button @click="log(multiProducts)">whole cart</button>
+  <p data-test="no-cart" v-if="Object.keys(cartItems).length === 0">No items in cart</p>
+  <section class="checkout" v-else>
+    <section>
+      <OrderForm />
+    </section>
+    <section>
+    <h2 data-test="cart-title">Items in Cart:</h2>
     <div v-for="item in multiProducts" :key="item._id">
-      <img :src="item.image" :alt="item.name">
-      <router-link :to="{ name: 'Product', params: { id: item._id } }">
-        <strong>{{item.name}}</strong>
-      </router-link>
-      <p>£{{item.price}}</p>
-      <form @submit.prevent="subFromCart({id: item._id, amount: deductAmount(cartItems[item._id], qty[item._id])})">
-        <label v-for="num in cartItems[item._id]" :key="item._id + num" for="num">
-          {{num}}
-          <input :value="num" :name="num" v-model="qty[item._id]" type="radio" >
-        </label>
-        <button type="submit">Set new value</button>
-      </form>
-      <!-- <form @submit.prevent="addToCart({id: oneProduct._id, amount: qty})">
-  <label v-for="num in oneProduct.countInStock" :key="num" for="num">
-    {{num}}
-    <input :value="num" :name="num"  v-model="qty" type="radio">
-  </label>
-  <button type="submit">Add to Cart</button>
-  </form> -->
+      <div data-test="out-of-stock-product" v-if="item.countInStock === 0">
+        <p>Item out of stock</p>
+        <router-link :to="{ name: 'Product', params: { id: item._id } }">
+          <strong>{{item.name}}</strong>
+        </router-link>
+      </div>
+      <div data-test="fewer-in-stock-product" v-else-if="item.countInStock < cartItems[item._id]">
+        <p>Fewer items available in stock than in cart</p>
+      </div>
+      <div data-test="in-cart-product" v-else>
+        <InCartProduct :productDets="item" :productQty="cartItems[item._id]" />
+      </div>
     </div>
+    </section>
   </section>
 
 </template>
 
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
+import OrderForm from '../components/OrderForm.vue';
+import InCartProduct from '../components/InCartProduct.vue';
 
 export default {
-  name: 'Product',
+  name: 'Cart',
   data(){
     return {
       qty: {},
     }
   },
+  components: {
+    OrderForm,
+    InCartProduct,
+  },
   computed: {
-    ...mapGetters(["cartItems", "oneProduct", "multiProducts"]),
-    deductAmount(sum, val){
-      return sum-val
-    }
+    ...mapGetters(["cartItems", "multiProducts"]),
   },
     methods: {
     ...mapMutations(["addToCart", "subFromCart", "setCartAmount", "removeProductFromCart", "emptyCart"]),
     ...mapActions(["getMultiProducts"]),
-    log(i){console.log(i)}
+    printIt(p){console.log(p)},
+    log(i){this.printIt(i)}
   },
   mounted(){
+    this.log(`from cart.vue: ${this.cartItems}`)
     const arrIDs = Object.keys(this.cartItems).map((id)=>{
       this.qty[id]  = this.cartItems[id]
-      console.log(`mountie: ${this.qty[id]}`)
       return id
     });
     this.getMultiProducts(arrIDs.join(','));
@@ -61,6 +63,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+  .checkout{
+    display: flex;
+  }
 </style>

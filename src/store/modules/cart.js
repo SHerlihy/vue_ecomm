@@ -6,7 +6,9 @@ const moduleCart = {
     addToCart: (state, { id, amount }) => {
       state.inCart[id] = (state.inCart[id] || 0) + amount;
     },
-    subFromCart: (state, { id, amount }) => (state.inCart[id] || 0) - amount,
+    subFromCart: (state, { id, amount }) => {
+      state.inCart[id] = (state.inCart[id] || 0) - amount;
+    },
     removeProductFromCart: (state, id) => delete state.inCart[id],
     emptyCart: (state) => (state.inCart = {}),
     // emptyCart: (state) =>
@@ -14,6 +16,7 @@ const moduleCart = {
   },
   getters: {
     cartItems: (state) => state.inCart,
+    cartItem: (state, { id }) => state.inCart[id],
   },
 };
 
